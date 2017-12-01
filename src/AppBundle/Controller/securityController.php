@@ -20,6 +20,7 @@ class securityController extends Controller
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
+
         // Login erreur
         $error = $authUtils->getLastAuthenticationError();
 
