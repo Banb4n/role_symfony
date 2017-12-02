@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Service;
 
+use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -40,7 +41,7 @@ class AfterLoginRedirection implements AuthenticationSuccessHandlerInterface
     {
 
         $roles = $token->getRoles();
-
+        $user = $token->getUser();
         $rolesTab = array_map(function ($role) {
             return $role->getRole();
         }, $roles);
@@ -50,7 +51,7 @@ class AfterLoginRedirection implements AuthenticationSuccessHandlerInterface
             $redirection = new RedirectResponse($this->router->generate('dashboard'));
         } else {
             // c'est un utilisaeur lambda : on le rediriger vers l'accueil
-            $redirection = new RedirectResponse($this->router->generate('user_new'));
+            $redirection = new RedirectResponse($this->router->generate('user_show', array('id' => $user->getId())));
         }
 
         return $redirection;
